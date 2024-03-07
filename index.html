@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Filestack QR Code Generator</title>
+    <script src="https://static.filestackapi.com/filestack-js/3.x.x/filestack.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #EF4A25;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        #uploadBtn {
+            background-color: #EF4A25;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #uploadBtn:hover {
+            background-color: #0056b3;
+        }
+        #qrCode {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="https://static.vecteezy.com/system/resources/previews/005/399/981/original/cute-qr-code-cartoon-is-planting-a-tree-seed-vector.jpg" alt="Cartoon Banner" style="max-width: 100%; height: auto;">
+        <h1>Filestack QR Code Generator</h1>
+        <button id="uploadBtn">Upload File</button>
+        <div id="qrCode"></div>
+    </div>
+
+    <script>
+        const client = filestack.init('A18L3T2eWRemxYIGwGlZsz');
+
+        document.getElementById('uploadBtn').addEventListener('click', () => {
+            client.picker({
+                accept: 'image/*',
+                onUploadDone: (res) => {
+                    const handle = res.filesUploaded[0].handle;
+                    generateQRCode(handle);
+                }
+            }).open();
+        });
+
+        function generateQRCode(handle) {
+            const qrContainer = document.getElementById('qrCode');
+            qrContainer.innerHTML = `<img src="https://cdn.filestackcontent.com/apikey/qr/${handle}" alt="QR Code"/>`;
+        }
+    </script>
+</body>
+</html>
